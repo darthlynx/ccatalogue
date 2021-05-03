@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, jsonify, make_response
+from flask import Flask
 
 
 def create_app(test_config=None):
@@ -24,46 +24,11 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
-    @app.route('/courses', methods=['GET'])
-    def get_courses():
-        # print(id)
-        name = request.args.get('name')
-        # TODO: filter results by name here
-        print(name)
-        date = request.args.get('date')
-        # TODO: filter results by date here
-        print(date)
-        return make_response(jsonify([]), 200)
-
-    @app.route('/courses', methods=['POST'])
-    def create_course():
-        data = request.get_json()
-        print(data)
-        return make_response(jsonify(data), 200)
-
-    @app.route('/courses/<id>', methods=['PUT'])
-    def update_course(id):
-        data = request.get_json()
-        print(data)
-        return make_response(jsonify(data), 200)
-
-    @app.route('/courses/<id>', methods=['GET'])
-    def get_course_by_id(id):
-        # print(id)
-        data = request.get_json()
-        print(data)
-        return make_response(jsonify({"id": id}), 200)
-
-    @app.route('/courses/<id>', methods=['DELETE'])
-    def delete_course_by_id(id):
-        return make_response(jsonify({"id": id}), 200)
-
     from . import db
     db.init_app(app)
+
+    # load blueprint for courses controller
+    from . import courses_controller
+    app.register_blueprint(courses_controller.bp)
 
     return app
