@@ -42,8 +42,21 @@ def create_course():
 @bp.route('/<id>', methods=['PUT'])
 def update_course(id):
     data = request.get_json()
-    print(data)
-    return make_response(jsonify(data), 200)
+    course_name = data['course_name']
+    start_date = data['start_date']
+    end_date = data['end_date']
+    lectures_number = data['lectures_number']
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute('UPDATE catalogue SET course_name = ?, start_date = ?, end_date = ?, lectures_number = ?'
+                    ' WHERE id = ?',
+                    (course_name, start_date, end_date, lectures_number, id)
+                    )
+        db.commit()
+    except Exception as e:
+        print(e)
+    return make_response(jsonify({"id": id}), 200)
 
 
 @bp.route('/<id>', methods=['GET'])
