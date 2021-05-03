@@ -6,21 +6,37 @@ bp = Blueprint('courses', __name__, url_prefix='/courses')
 
 @bp.route('/', methods=['GET'])
 def get_courses():
-    result = []
+    db = get_db()
     name = request.args.get('name')
-    # TODO: filter results by name here
-    print(name)
+    if name:
+        courses = db.execute('SELECT * FROM catalogue WHERE course_name = ?', (name,)).fetchone()
+        return make_response(jsonify([dict(courses)]), 200)
     date = request.args.get('date')
-    # TODO: filter results by date here
-    print(date)
-    return make_response(jsonify(result), 200)
+    if date:
+        courses = db.execute('SELECT * FROM catalogue WHERE start_date = ?', (date,)).fetchall()
+        return make_response(jsonify([dict(ix) for ix in courses]), 200)
+    courses = db.execute('SELECT * FROM catalogue').fetchall()
+    return make_response(jsonify([dict(ix) for ix in courses]), 200)
 
 
 @bp.route('/', methods=['POST'])
 def create_course():
     data = request.get_json()
-    print(data)
-    return make_response(jsonify(data), 200)
+    course_name = data['course_name']
+    start_date = data['start_date']
+    end_date = data['end_date']
+    lectures_number = data['lectures_number']
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute('INSERT INTO catalogue (course_name, start_date, end_date, lectures_number)'
+                    ' VALUES (?, ?, ?, ?)',
+                    (course_name, start_date, end_date, lectures_number)
+                    )
+        db.commit()
+    except Exception as e:
+        print(e)
+    return make_response(jsonify({"id": cur.lastrowid}), 200)
 
 
 @bp.route('/<id>', methods=['PUT'])
