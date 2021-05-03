@@ -56,4 +56,11 @@ def get_course_by_id(id):
 
 @bp.route('/<id>', methods=['DELETE'])
 def delete_course_by_id(id):
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute('DELETE FROM catalogue WHERE id = ?', (id,)).fetchone()
+        db.commit()
+    except Exception as e:
+        print(e)
     return make_response(jsonify({"id": id}), 200)
