@@ -48,10 +48,10 @@ def update_course(id):
 
 @bp.route('/<id>', methods=['GET'])
 def get_course_by_id(id):
-    # print(id)
-    data = request.get_json()
-    print(data)
-    return make_response(jsonify({"id": id}), 200)
+    db = get_db()
+    course = db.execute('SELECT * FROM catalogue WHERE id = ?', (id,)).fetchone()
+    resp = dict(course) if course else {}
+    return make_response(jsonify(resp), 200)
 
 
 @bp.route('/<id>', methods=['DELETE'])
