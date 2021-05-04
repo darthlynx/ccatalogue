@@ -7,13 +7,32 @@ It is based on Flask framework.
 
 List of dependencies and required modules
 
-## Build
+## Preset
 
-Steps to build the application
+Set up Flask-related environment variables:
+
+```bash
+export FLASK_APP=ccatalogue
+export FLASK_ENV=development
+```
+
+Initialize the database
+
+```bash
+flask init-db
+```
 
 ## Run
 
-Steps to run application and test the endpoints
+Run the application:
+
+```bash
+flask run
+```
+
+It will start the web-applicaiton server on port 5000:
+
+http://127.0.0.1:5000
 
 ## Test
 
