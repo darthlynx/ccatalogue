@@ -5,7 +5,21 @@ It is based on Flask framework.
 
 ## Dependencies
 
-List of dependencies and required modules
+1. Python 3.6 or higher
+2. Flask
+3. SQLite 3
+
+Check python version:
+
+```bash
+python --version
+```
+
+Install requirements:
+
+```bash
+pip install -r requirements.txt
+```
 
 ## Preset
 
@@ -30,7 +44,7 @@ Run the application:
 flask run
 ```
 
-It will start the web-applicaiton server on port 5000:
+It will start the web-application server on port 5000:
 
 http://127.0.0.1:5000
 
@@ -49,4 +63,5 @@ GET		courses/{id}		-		json (object)		get course details
 PUT		courses/{id}		json		json (object)		update course
 DELETE		courses/{id}		-		json (id)		delete course
 ```
+
 
