@@ -36,5 +36,17 @@ http://127.0.0.1:5000
 
 ## Test
 
-Steps to run unit tests
+Application contains the next number of endpoints:
+
+```text
+Request type	Endpoint		Consumes	Produces		Description
+
+GET 		courses/		-		json (list(object))	get list of all courses
+GET		courses?name={name}	-		json (object)		get courses filtered by name
+GET		courses?date={date}	-		json (list(object))	get courses filtered by date
+POST 		courses/		json		json (id)		add course to the catalogue
+GET		courses/{id}		-		json (object)		get course details
+PUT		courses/{id}		json		json (object)		update course
+DELETE		courses/{id}		-		json (id)		delete course
+```
 
